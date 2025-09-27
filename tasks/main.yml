@@ -1,0 +1,14 @@
+---
+- name: Deploy portainer
+  ansible.builtin.include_tasks:
+    file: portainer.yml
+  when:
+    - portainer is defined
+    - portainer == "portainer"
+
+- name: Deploy portainer-agent
+  ansible.builtin.include_tasks:
+    file: portainer-agent.yml
+  when:
+    - portainer is defined
+    - portainer == "agent"

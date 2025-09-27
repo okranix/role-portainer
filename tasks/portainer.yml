@@ -1,0 +1,33 @@
+---
+- name: Ensure portainer directory
+  ansible.builtin.file:
+    path: "{{ portainer_data_dir }}/portainer"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+  become_user: root
+
+- name: Deploy portainer docker compose file
+  ansible.builtin.template:
+    src: portainer.j2
+    dest: "{{ portainer_data_dir }}/portainer/compose.yml"
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  become_user: root
+
+- name: Tear down existing services
+  community.docker.docker_compose_v2:
+    project_src: "{{ portainer_data_dir }}/portainer"
+    state: absent
+  become: true
+  become_user: root
+
+- name: Create and start service
+  community.docker.docker_compose_v2:
+    project_src: "{{ portainer_data_dir }}/portainer"
+  become: true
+  become_user: root
