@@ -28,6 +28,8 @@ Example Playbook
   ---
   - name: Portainer and portainer-agent setup
     hosts: all
+    vars:
+      portainer: agent
     roles:
       - role: role-portainer
   ```
